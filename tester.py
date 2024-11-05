@@ -1,6 +1,7 @@
 # Import the functions from each task file
 from task1_leader_circulation import dijkstra_leader_circulation
 from task2_resource_allocation import distribute_resource
+from task3_distribute_resources import Island, Canoe, distribute_resources
 import random
 import time
 
@@ -77,3 +78,55 @@ def test_task2(num_islands, num_routes, capacity):
 test_task2(num_islands=100, num_routes=500, capacity=50)
 test_task2(num_islands=500, num_routes=2000, capacity=50)
 test_task2(num_islands=1000, num_routes=5000, capacity=50)
+
+# Function for testing task3_distribute_resources
+def test_task3():
+
+    print("\n--- Testing Task 3: Full Coverage With Limited Canoes ---")
+    # Define islands and travel times (graph representation)
+    travel_times = {
+        "South America": [("Rapa Nui", 2), ("Tahiti", 4)],
+        "Rapa Nui": [("New Zealand", 1), ("Hawaii", 3)],
+        "Tahiti": [("Hawaii", 2)],
+        "New Zealand": [],
+        "Hawaii": []
+    }
+    
+    # Instantiate islands and a canoe with limited capacity
+    islands = {name: Island(name) for name in travel_times}
+    canoe = Canoe(capacity=3)
+    
+    # Distribute resources starting from origin 'A'
+    origin = "South America"
+    resources_distributed = distribute_resource(origin, islands, travel_times, canoe)
+    
+    # Display results
+    print("\nResource distribution summary:")
+    for island, count in resources_distributed.items():
+        print(f"{island} received {count} units of the resource.")
+
+    # Expected distribution: each reachable island should receive at least one unit
+    expected_distribution = {
+        "South America": 3,  # Origin
+        "Rapa Nui": 1,
+        "Tahiti": 1,
+        "New Zealand": 1,
+        "Hawaii": 1
+    }
+
+    # Check if the actual distribution matches the expected results
+    all_tests_passed = True
+    for island, expected_count in expected_distribution.items():
+        actual_count = resources_distributed.get(island, 0)
+        if actual_count != expected_count:
+            all_tests_passed = False
+            print(f"Test failed for {island}: expected {expected_count}, got {actual_count}")
+    
+    if all_tests_passed:
+        print("All test cases passed!")
+    else:
+        print("Some test cases failed.")
+
+# Run the test function
+if __name__ == "__main__":
+    test_task3()
