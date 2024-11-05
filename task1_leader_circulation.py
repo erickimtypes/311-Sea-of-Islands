@@ -34,22 +34,5 @@ def dijkstra_leader_circulation(graph, start_island, population):
                 # If we found a shorter path to the neighbor, update and push to queue
                 if new_time < shortest_times[neighbor]:
                     shortest_times[neighbor] = new_time
-                    heapq.heappush(priority_queue, (new_time, -populations[neighbor], neighbor))
+                    heapq.heappush(priority_queue, (new_time, -population[neighbor], neighbor))
 
-# Example graph and population data
-graph = {
-    'Hawaii': [('Tahiti', 10), ('Aotearoa', 25)],
-    'Tahiti': [('Hawaii', 10), ('Rapanui', 20)],
-    'Aotearoa': [('Hawaii', 25)],
-    'Rapanui': [('Tahiti', 20)]
-}
-
-populations = {
-    'Hawaii': 200,
-    'Tahiti': 150,
-    'Aotearoa': 100,
-    'Rapanui': 50
-}
-
-# Start the leader's journey from 'Hawaii'
-dijkstra_leader_circulation(graph, 'Hawaii', populations)
