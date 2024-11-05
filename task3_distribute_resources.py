@@ -13,7 +13,7 @@ class Canoe:
 # Distributes resources from an origin island across a directed, weighted graph of islands.
 # Each island receives a resource, subject to the canoe's capacity constraints.
 # The canoe returns to the origin to reload when empty.
-def distribute_resource(origin, islands, travel_times, canoe):
+def distribute_resources(origin, islands, travel_times, canoe):
     
     # Queue for BFS, starting from the origin island
     queue = deque([origin])
@@ -29,12 +29,12 @@ def distribute_resource(origin, islands, travel_times, canoe):
             # Distribute a unit of resource
             islands[current_island].resources_received += 1
             resources_distributed[current_island] += 1
-            canoe.current_load -= 1  # Decrease load for each distribution
+            canoe.current_load -= 1  # Decrease current load for each distribution
 
         # If canoe is empty, return to origin to reload
         if canoe.current_load == 0:
             canoe.current_load = canoe.capacity
-            queue.append(origin)  # Add origin back to queue to simulate return and reload
+            queue.append(origin)  # Add origin back to queue to indicate return and reload
 
         # Add neighbors to queue if they haven't been visited yet
         for neighbor, _ in travel_times.get(current_island, []):
